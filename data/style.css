@@ -1,0 +1,109 @@
+/* Desktop area com wallpaper de madeira */
+.desktop-area {
+    background-image: url('resource:///com/idenmarshmellow/wood_texture.png');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Ícones desktop flutuantes */
+.desktop-icon {
+    background: rgba(30, 20, 10, 0.65);
+    border: 1px solid rgba(139, 90, 43, 0.35);
+    border-radius: 16px;
+    padding: 16px 12px;
+    min-width: 120px;
+    min-height: 100px;
+    color: #f5e6d0;
+    transition: all 200ms ease;
+}
+
+.desktop-icon:hover {
+    background: rgba(139, 90, 43, 0.55);
+    border-color: rgba(200, 150, 80, 0.6);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.desktop-icon:disabled {
+    opacity: 0.35;
+    background: rgba(10, 10, 10, 0.7);
+    border-color: rgba(50, 50, 50, 0.5);
+}
+
+.desktop-icon-label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.desktop-icon-image {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+/* HeaderBar */
+headerbar {
+    background: linear-gradient(180deg, rgba(62, 39, 18, 0.95), rgba(45, 28, 12, 0.98));
+    border-bottom: 1px solid rgba(139, 90, 43, 0.4);
+    color: #e8d5b8;
+}
+
+/* Console View */
+.console-view {
+    background: #111111;
+    color: #4ade80;
+    padding: 8px;
+    font-size: 13px;
+    font-family: monospace;
+}
+
+/* Barra de status inferior */
+.status-bar {
+    background: rgba(20, 14, 8, 0.92);
+    border-top: 1px solid rgba(139, 90, 43, 0.3);
+    padding: 6px 16px;
+    min-height: 36px;
+}
+
+.status-box {
+    padding: 4px 12px;
+    border-radius: 8px;
+    margin-right: 8px;
+}
+
+.status-ok {
+    color: #4ade80;
+    font-weight: bold;
+    background: rgba(74, 222, 128, 0.1);
+}
+
+.status-warn {
+    color: #facc15;
+    font-weight: bold;
+    background: rgba(250, 204, 21, 0.1);
+}
+
+.status-attack {
+    color: #f87171;
+    font-weight: bold;
+    background: rgba(248, 113, 113, 0.1);
+}
+
+/* Pulso de alerta */
+@keyframes pulse-warn {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+.status-pulse {
+    animation: pulse-warn 1.5s infinite;
+}
+
+/* Modo cego ativo — borda azul alta contraste */
+.blind-mode-active {
+    outline: 3px solid #60a5fa;
+    outline-offset: -3px;
+}
+
+.blind-mode-button {
+    background: rgba(96, 165, 250, 0.2);
+    color: #60a5fa;
+}

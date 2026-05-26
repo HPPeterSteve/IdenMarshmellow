@@ -1,0 +1,42 @@
+[package]
+name = "idenmarshmellow"
+version = "1.0.0"
+edition = "2021"
+build = "build.rs"
+
+[[bin]]
+name = "IdenMarshmellow"
+path = "src/main.rs"
+
+[dependencies]
+# GTK4 + libadwaita
+gtk4 = { version = "0.9", package = "gtk4" }
+libadwaita = "0.7"
+
+# System & FS
+sysinfo = "0.38.4"
+home = "0.5.12"
+chrono = "0.4"
+ctrlc = "3.5.2"
+libc = "0.2"
+
+# Crypto
+aes-gcm = "0.10"
+rand = "0.8"
+argon2 = "0.5"
+
+# Utilitários
+hex = "0.4.3"
+
+[build-dependencies]
+cc = "1.1"
+system-deps = "7.0"
+winres = "0.1"
+winresource = "0.1"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

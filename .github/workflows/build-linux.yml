@@ -1,0 +1,39 @@
+name: Build IdenMarshmellow Linux
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Rust
+      uses: dtolnay/rust-toolchain@stable
+
+    - name: Install System Dependencies (GTK4, Security Core)
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          libgtk-4-dev \
+          libadwaita-1-dev \
+          pkg-config \
+          build-essential \
+          libseccomp-dev \
+          libcap-dev \
+          libssl-dev \
+          espeak-ng
+
+    - name: Build Project
+      run: cargo build --release
+
+    - name: Upload Linux Binary
+      uses: actions/upload-artifact@v4
+      with:
+        name: IdenMarshmellow-Linux-Executable
+        path: target/release/IdenMarshmellow

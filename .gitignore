@@ -1,0 +1,7 @@
+# Rust
+target/
+Cargo.lock
+
+# OS Files
+.DS_Store
+Thumbs.db
