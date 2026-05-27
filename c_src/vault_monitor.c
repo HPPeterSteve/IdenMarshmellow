@@ -485,28 +485,6 @@ void *monitor_thread(void *arg) {
                     ptr += sizeof(struct inotify_event) + ev->len;
                 }
             }
-        }te ((ignored): "%s", v->name, evname);
-                            } else {
-                                vault_log(LOG_INFO, "[%s] inotify: CREATED %s", v->name, evname);
-                                monitor_scan_vault(v);
-                            }
-                        } else if (ev->mask & (IN_DELETE | IN_MOVED_FROM)) {
-                            if (is_sandbox_internal(evname)) {
-                                /* pivot_root temp dir being cleaned up — not an attack */
-                                vault_log(LOG_INFO, "[%s] Sandbox internal delete (ignored): %s", v->name, evname);
-                            } else {
-                                vault_log(LOG_ALERT, "[%s] inotify: DELETED/MOVED %s", v->name, evname);
-                                char reason[256];
-                                snprintf(reason, sizeof(reason), "File deleted/moved: %s", evname);
-                                alert_trigger(v, reason);
-                            }
-                        }
-                        rule_evaluate(v);
-                    }
- 
-                    ptr += sizeof(struct inotify_event) + ev->len;
-                }
-            }
         }
  
         /* Periodic alert escalation check */
