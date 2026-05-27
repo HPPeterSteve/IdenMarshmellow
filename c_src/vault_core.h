@@ -214,6 +214,11 @@ typedef struct {
 
     /* Engine de isolamento (0 = sem engine, 1-5 = níveis de proteção) */
     int         engine_level;
+
+#ifdef __linux__
+    /* inotify watch descriptor for this vault's directory (-1 if not watched) */
+    int         inotify_wd;
+#endif
 } Vault;
 
 /* Catalog: flat array of vaults */
