@@ -44,6 +44,11 @@ static inline bool is_sandbox_internal(const char *name) {
     return false;
 }
 
+static FileEntry *suspect_access(Vault *v, FileEntry *e, time_t now) {
+    (void)v; (void)e; (void)now;
+    return NULL;
+}
+
 /* Helper: replenish per-file bucket credits */
 static void replenish_file_bucket_if_needed(FileBucket *fb, time_t now) {
     if (!fb) return;
@@ -77,7 +82,7 @@ static void deduct_credit_and_maybe_alert(Vault *v, FileBucket *fb, const char *
          evname, v->name, fb->time_esgoted);
     }
 }
-static void flash_credit_reduce(vault *v, FileBucket *fb, const char *evname) {
+static void flash_credit_reduce(Vault *v, FileBucket *fb, const char *evname) {
     if (!fb || !v) return;
     if (fb->credits_flash > 0) {
         fb->credits_flash--;

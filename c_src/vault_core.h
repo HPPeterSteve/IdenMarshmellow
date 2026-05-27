@@ -35,6 +35,7 @@ extern "C" {
 #include <fcntl.h>
 #include <dirent.h>
 #include <sys/fanotify.h>
+#include <sys/inotify.h>
 #include <sys/wait.h>
 #include <pthread.h>
 #include <termios.h>
@@ -187,6 +188,16 @@ typedef struct {
     char        reason[256];
 } AlertState;
 
+/* File Bucket for rate limiting per file */
+typedef struct FileBucket {
+    char path[VAULT_PATH_MAX];
+    double credits;
+    time_t last_update;
+    int time_esgoted;
+    int credits_flash;
+    struct FileBucket *next;
+} FileBucket;
+
 /* Core vault structure */
 typedef struct {
     uint32_t    id;
@@ -208,6 +219,10 @@ typedef struct {
 
     /* Alert state */
     AlertState  alert;
+
+    /* Rate limiting */
+    double      bucket_credits;
+    FileBucket *file_buckets;
 
     /* Protection */
     bool        write_mode;  /* True only during authorized write operations */
