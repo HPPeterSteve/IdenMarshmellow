@@ -71,10 +71,10 @@ int vault_ffi_init(void) {
     /* Init monitor context */
     g_monitor.catalog     = &g_catalog;
     g_monitor.running     = true;
-    g_monitor.fanotify_fd = fanotify_init(FAN_CLASS_CONTENT | FAN_CLOEXEC, O_RDONLY | O_LARGEFILE);
+    g_monitor.inotify_fd  = inotify_init1(IN_CLOEXEC);
 
-    if (g_monitor.fanotify_fd < 0) {
-        vault_log(LOG_WARN, "fanotify_init: %s (monitor disabled - run with CAP_SYS_ADMIN/root to enable)", strerror(errno));
+    if (g_monitor.inotify_fd < 0) {
+        vault_log(LOG_WARN, "inotify_init1: %s (monitor disabled)", strerror(errno));
         /* Non-fatal: continue without active blocking monitor */
     }
 
@@ -84,10 +84,10 @@ int vault_ffi_init(void) {
     }
 
     /* Start monitor thread */
-    if (g_monitor.fanotify_fd >= 0) {
+    if (g_monitor.inotify_fd >= 0) {
         if (pthread_create(&g_monitor_tid, NULL, monitor_thread, &g_monitor) == 0) {
             g_monitor_started = true;
-            vault_log(LOG_INFO, "Fanotify monitor thread started");
+            vault_log(LOG_INFO, "Inotify monitor thread started");
         } else {
             vault_log(LOG_WARN, "Failed to start monitor thread: %s", strerror(errno));
         }
@@ -126,9 +126,9 @@ int vault_ffi_shutdown(void) {
 
     pthread_mutex_destroy(&g_monitor.lock);
 
-    if (g_monitor.fanotify_fd >= 0) {
-        close(g_monitor.fanotify_fd);
-        g_monitor.fanotify_fd = -1;
+    if (g_monitor.inotify_fd >= 0) {
+        close(g_monitor.inotify_fd);
+        g_monitor.inotify_fd = -1;
     }
 #endif
 
