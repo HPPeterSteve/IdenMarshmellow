@@ -247,7 +247,7 @@ typedef struct {
 /* Monitor thread context */
 typedef struct {
     Catalog        *catalog;
-    int             fanotify_fd;
+    int             inotify_fd;
     volatile bool   running;
 #ifdef __linux__
     pthread_mutex_t lock;

@@ -18,6 +18,7 @@
  
 #ifdef __linux__
 #include <dirent.h>
+#define INOTIFY_BUFSZ (1024 * (sizeof(struct inotify_event) + 16))
 #endif
  
 /* ─────────────────────────────────────────────────────────────────────────
@@ -243,7 +244,6 @@ void monitor_scan_vault(Vault *v) {
                     snprintf(reason, sizeof(reason), "File modified: %s", de->d_name);
                     alert_trigger(v, reason);
                 }
-                if()
                 memcpy(e->hash, new_hash, HASH_HEX_LEN);
             } else {
                 e->modified = false;
